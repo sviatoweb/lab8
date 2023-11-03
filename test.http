@@ -1,0 +1,13 @@
+GET http://localhost:8080/api/flowers/list
+
+###
+POST http://localhost:8080/api/flowers/add
+Content-Type: application/json
+
+{
+  "id": 2,
+  "sepalLength": 10,
+  "color": "WHITE",
+  "price": 100,
+  "flowerType": "TULIP"
+}
