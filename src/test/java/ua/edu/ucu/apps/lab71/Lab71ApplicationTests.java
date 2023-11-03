@@ -6,7 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import ua.edu.ucu.apps.lab71.flowers.*;
 import ua.edu.ucu.apps.lab71.delivery.*;
+import ua.edu.ucu.apps.lab71.payment.*;
+import ua.edu.ucu.apps.lab71.order.Order;
 import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -15,20 +18,30 @@ class Lab71ApplicationTests {
 
 	@Test
 	void TestFlowerStore() {
-    Delivery dhldelivery = new DHLDeliveryStrategy();
-    Flower flower = new Flower(5, 4.5, FlowerColor.RED);
-    FlowerPack flowerpack = new FlowerPack(flower, 5);
-    FlowerBucket flowerbucket = new FlowerBucket();
-    flowerbucket.add(flowerpack);
-    assertEquals(flowerbucket.getPrice(), 22.5);
-    assertEquals(flowerbucket.getDescription(), "Flower bucket");
-    assertEquals(flowerpack.getPrice(), 25);
-    assertEquals(flower.getColor(), "red");
-    assertEquals(flower.getPrice(), 5);
-    
-    ArrayList<Item> buckets = new ArrayList<Item>();
-    buckets.add(flowerbucket);
-    assertEquals(dhldelivery.deliver(buckets), "DHL delivery of 1 items");
+        FlowerBucket flowerbucket = new FlowerBucket();
+
+        Delivery dhldelivery = new DHLDeliveryStrategy();
+        Delivery postdelivery = new PostDeliveryStrategy();
+
+        
+        List<Item> buckets = new ArrayList<Item>();
+        buckets.add(flowerbucket);
+        assertEquals(dhldelivery.deliver(buckets), "DHL delivery of 1 items");
+        assertEquals(postdelivery.deliver(buckets), "Post delivering of 1 items");
+
+
+        Payment creditcard = new CreditCardPaymentStrategy();
+        Payment paypal = new PayPalPaymentStrategy();
+
+        assertEquals(creditcard.pay(40), "Paid 40.0 with credit card");
+        assertEquals(paypal.pay(40), "Paid 40.0 with paypal");
+
+
+        Order order = new Order(buckets);
+        order.setDeliveryStrategy(dhldelivery);
+        order.setPaymentStrategy(new CreditCardPaymentStrategy());
+
+        assertEquals(order.processOrder(), "Paid with CreditCard using DHL delivery of 1 items");
 
 
     

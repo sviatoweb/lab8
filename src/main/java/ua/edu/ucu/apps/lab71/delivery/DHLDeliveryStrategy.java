@@ -8,4 +8,10 @@ public class DHLDeliveryStrategy implements Delivery {
     public String deliver(List<Item> items) {
         return "DHL delivery of " + items.size() + " items";
     }
+
+
+    @Override
+    public String getName() {
+        return "DHL";
+    }
 }

@@ -9,4 +9,9 @@ public class PostDeliveryStrategy implements Delivery {
     public String deliver(List<Item> items) {
         return "Post delivering of " + items.size() + " items";
     }
+
+    @Override
+    public String getName() {
+        return "PostDelivery";
+    }
 }

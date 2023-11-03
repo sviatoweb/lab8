@@ -12,4 +12,9 @@ public class PayPalPaymentStrategy implements Payment{
         return "Paid " + price + " with paypal";
     }
 
+    @Override
+    public String getName() {
+        return "PayPal";
+    }
+
 }

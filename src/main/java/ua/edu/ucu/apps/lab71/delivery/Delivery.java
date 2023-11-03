@@ -5,5 +5,6 @@ import ua.edu.ucu.apps.lab71.flowers.Item;
 
 public interface Delivery {
     String deliver(List<Item> items);
+    String getName();
 }
 
